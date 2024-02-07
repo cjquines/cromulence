@@ -7,6 +7,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
+    "build:wordlist": "tsx data/buildWordlist.ts",
     "test": "vitest"
   },
   "keywords": [
@@ -20,7 +21,12 @@
     "url": "https://github.com/cjquines/cromulence/issues"
   },
   "homepage": "https://github.com/cjquines/cromulence#readme",
+  "dependencies": {
+    "efrt": "^2.7.0"
+  },
   "devDependencies": {
+    "@types/node": "^20.11.16",
+    "tsx": "^4.7.0",
     "typescript": "^5.3.3",
     "vitest": "^1.2.2"
   }
