@@ -1,0 +1,27 @@
+{
+  "name": "cromulence",
+  "version": "0.1.0",
+  "description": "a small word frequency library",
+  "license": "MIT",
+  "author": "CJ Quines <cj@cjquines.com>",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [
+    "wordlist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cjquines/cromulence.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cjquines/cromulence/issues"
+  },
+  "homepage": "https://github.com/cjquines/cromulence#readme",
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.2"
+  }
+}
