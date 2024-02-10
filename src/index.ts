@@ -2,28 +2,29 @@
  * A function that loads the default wordlist. Tries to load via Node APIs,
  * and if that fails, load via fetch.
  */
-export async function loadWordlist(): Promise<Record<string, string>> {
-  const { unpack } = await import("efrt");
+export async function loadWordlist() {
+  const { expand, unpack } = await import("./front.js");
 
   const tryNode = async () => {
     const { readFile } = await import("node:fs/promises");
     const { dirname, join } = await import("node:path");
     const { fileURLToPath } = await import("node:url");
     return readFile(
-      join(dirname(fileURLToPath(import.meta.url)), "wordlist.efrt"),
+      join(dirname(fileURLToPath(import.meta.url)), "wordlist"),
       "utf8"
     );
   };
 
   const tryFetch = async () => {
     const resp = await fetch(
-      "https://cdn.jsdelivr.net/npm/cromulence@0.1.0/dist/wordlist.efrt"
+      "https://cdn.jsdelivr.net/npm/cromulence@0.3.0/dist/wordlist"
     );
     return resp.text();
   };
 
   const result = await tryNode().catch(tryFetch);
-  return unpack(result);
+
+  return expand(unpack(result));
 }
 
 const NULL_HYPOTHESIS_ENTROPY = -3.5 * Math.LOG10E;
@@ -58,20 +59,20 @@ export class Cromulence {
    *
    * @param wordlist - An object with slug keys and Zipf frequency values.
    */
-  constructor(public wordlist: Record<string, string>) {
+  constructor(public wordlist: Record<string, number>) {
     this.cache = new Map();
   }
 
   /**
    * Returns the Zipf frequency of a slug; defaults to -1000. We use a cache
-   * here because some methods look up the same slug over and over.
+   * here because many applications look up the same slug over and over.
    */
   private slugZipf(slug: string): number {
     const value = this.cache.get(slug);
     if (value !== undefined) {
       return value;
     }
-    const result = Number(this.wordlist[slug] ?? -1000);
+    const result = this.wordlist[slug] ?? -1000;
     this.cache.set(slug, result);
     return result;
   }

@@ -1,6 +1,6 @@
 # cromulence
 
-A small, puzzlehunt-tuned, word frequency library.
+A small, puzzlehunt-tuned, word frequency library. It's less than 1 MB gzipped.
 
 ## Usage
 

@@ -1,6 +1,6 @@
 {
   "name": "cromulence",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "a small word frequency library",
   "license": "MIT",
   "author": "CJ Quines <cj@cjquines.com>",
@@ -23,9 +23,6 @@
     "url": "https://github.com/cjquines/cromulence/issues"
   },
   "homepage": "https://github.com/cjquines/cromulence#readme",
-  "dependencies": {
-    "efrt": "^2.7.0"
-  },
   "devDependencies": {
     "@types/node": "^20.11.16",
     "tsx": "^4.7.0",
