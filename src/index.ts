@@ -16,7 +16,10 @@ export async function loadWordlist(): Promise<Record<string, string>> {
   };
 
   const tryFetch = async () => {
-    return "TODO";
+    const resp = await fetch(
+      "https://cdn.jsdelivr.net/npm/cromulence@0.1.0/dist/wordlist.efrt"
+    );
+    return resp.text();
   };
 
   const result = await tryNode().catch(tryFetch);

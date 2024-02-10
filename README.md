@@ -4,8 +4,6 @@ A small, puzzlehunt-tuned, word frequency library.
 
 ## Usage
 
-Basic usage:
-
 ```ts
 import { Cromulence, loadWordlist } from "cromulence";
 
@@ -23,8 +21,8 @@ cromulence.info("carl_t_on_fisk");
 // }
 ```
 
-The `Cromulence` class needs a wordlist. Without a wordlist, it'll try to read the default wordlist from the filesystem (if running on Node or similar), or fetch it from a CDN.
+The `Cromulence` class needs a wordlist. The `loadWordlist` function will try to load the default wordlist: on Node, it will use Node APIs to open the file; on the browser, it will fetch the file from jsDelivr.
 
 ## Wordlists
 
-`data/wordlist` is the entries in the [solvertools](https://github.com/rspeer/solvertools) WORDS wordlist with no spaces and weighted frequency at least one million; TODO write explainer
+`data/wordlist` is the entries in the [solvertools](https://github.com/rspeer/solvertools) WORDS wordlist with no spaces and weighted frequency at least one million. TODO link explainer
