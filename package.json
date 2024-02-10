@@ -7,7 +7,9 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
+    "build": "yarn build:wordlist && yarn build:ts",
     "build:wordlist": "tsx data/buildWordlist.ts",
+    "build:ts": "tsc",
     "test": "vitest"
   },
   "keywords": [
