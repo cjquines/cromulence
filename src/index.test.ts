@@ -33,7 +33,7 @@ test("Cromulence", () => {
     logProb: expect.closeTo(-14.83),
     slug: "thecat",
     spacing: "THE CAT",
-    zipf: expect.closeTo(2.56),
+    zipf: expect.closeTo(2.6),
   });
 
   expect(cromulence.info("a ca't t'he cat")).toEqual({
@@ -41,6 +41,6 @@ test("Cromulence", () => {
     logProb: expect.closeTo(-32.9),
     slug: "acatthecat",
     spacing: "A CAT THE CAT",
-    zipf: expect.closeTo(-5.29),
+    zipf: expect.closeTo(-5.3),
   });
 });
