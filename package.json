@@ -1,11 +1,22 @@
 {
   "name": "cromulence",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "a small word frequency library",
   "license": "MIT",
   "author": "CJ Quines <cj@cjquines.com>",
   "type": "module",
-  "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "module": "./dist/index.js",
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "npm run build:wordlist && npm run build:ts",
     "build:wordlist": "tsx data/buildWordlist.ts",

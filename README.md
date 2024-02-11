@@ -4,7 +4,7 @@ A small, puzzlehunt-tuned, word frequency library. Basically a port of the wordl
 
 ## Usage
 
-Install with `npm install cromulence`. This is an ES6 only library.
+Install with `npm install cromulence`. This is an ESM only library.
 
 ```ts
 import { Cromulence, loadWordlist } from "cromulence";

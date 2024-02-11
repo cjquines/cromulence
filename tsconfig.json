@@ -11,5 +11,5 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true
   },
-  "include": ["src/index.ts", "src/efrt.d.ts"]
+  "include": ["src/index.ts"]
 }
