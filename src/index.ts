@@ -10,14 +10,14 @@ export async function loadWordlist() {
     const { dirname, join } = await import("node:path");
     const { fileURLToPath } = await import("node:url");
     return readFile(
-      join(dirname(fileURLToPath(import.meta.url)), "wordlist"),
+      join(dirname(fileURLToPath(import.meta.url)), "wordlist.txt"),
       "utf8"
     );
   };
 
   const tryFetch = async () => {
     const resp = await fetch(
-      "https://cdn.jsdelivr.net/npm/cromulence@0.3.0/dist/wordlist"
+      "https://cdn.jsdelivr.net/npm/cromulence@0.3.1/dist/wordlist.txt"
     );
     return resp.text();
   };

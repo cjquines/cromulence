@@ -3,7 +3,7 @@ import path from "node:path";
 import { compress, pack } from "../src/front.js";
 
 const INPUT = path.join("data", "wordlist");
-const OUTPUT = path.join("dist", "wordlist");
+const OUTPUT = path.join("dist", "wordlist.txt");
 
 const slugify = (str: string) => str.toLowerCase().replace(/[^a-z]/g, "");
 
