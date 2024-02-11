@@ -1,5 +1,11 @@
 import { expect, test } from "vitest";
-import { Cromulence } from "./index.js";
+import { Cromulence, logProbToZipf, zipfToLogProb } from "./index.js";
+
+test("zipf/log", () => {
+  expect(zipfToLogProb(logProbToZipf(1.23))).toBeCloseTo(1.23);
+
+  expect(zipfToLogProb(logProbToZipf(-24.34))).toBeCloseTo(-24.34);
+});
 
 test("Cromulence", () => {
   const cromulence = new Cromulence({

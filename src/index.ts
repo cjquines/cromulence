@@ -17,7 +17,7 @@ export async function loadWordlist() {
 
   const tryFetch = async () => {
     const resp = await fetch(
-      "https://cdn.jsdelivr.net/npm/cromulence@0.3.1/dist/wordlist.txt"
+      "https://cdn.jsdelivr.net/npm/cromulence@0.3.2/dist/wordlist.txt"
     );
     return resp.text();
   };
@@ -44,8 +44,18 @@ function spaceAt(text: string, indices: number[]) {
   return result.join(" ");
 }
 
+/** Convert a log probability to a Zipf frequency. */
+export function logProbToZipf(logProb: number) {
+  return logProb * Math.LOG10E + 9;
+}
+
+/** Convert a Zipf frequency to log probability. */
+export function zipfToLogProb(zipf: number) {
+  return (zipf - 9) / Math.LOG10E;
+}
+
 /** Convert a Zipf frequency to the cromulence scale. */
-function zipfToCromulence(zipf: number, length: number) {
+export function zipfToCromulence(zipf: number, length: number) {
   const entropy = (zipf - 9) / (length + 1);
   const cromulence = DECIBEL_SCALE * (entropy - NULL_HYPOTHESIS_ENTROPY);
   return Math.round(10 * cromulence) / 10;
@@ -130,7 +140,7 @@ export class Cromulence {
 
     return {
       cromulence: zipfToCromulence(zipf, slug.length),
-      logProb: (zipf - 9) / Math.LOG10E,
+      logProb: zipfToLogProb(zipf),
       slug,
       spacing: spaceAt(slug.toUpperCase(), splits),
       zipf: Math.round(10 * zipf) / 10,
