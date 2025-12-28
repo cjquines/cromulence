@@ -2,8 +2,7 @@
   "compilerOptions": {
     "strict": true,
     "rootDir": "src",
-    "module": "esnext",
-    "moduleResolution": "node",
+    "module": "nodenext",
     "outDir": "dist",
     "target": "esnext",
     "sourceMap": true,
@@ -11,5 +10,5 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true
   },
-  "include": ["src/index.ts"]
+  "include": ["src/index.ts", "src/index.node.ts"]
 }
