@@ -1,13 +1,14 @@
 import { expand, unpack } from "./front.js";
 
-/**
- * A function that loads the default wordlist via fetch.
- */
-export async function loadWordlist() {
+/** A function that returns the packed string via fetch. */
+export async function loadPackedString() {
   const resp = await fetch(
     "https://cdn.jsdelivr.net/npm/cromulence@0.3.2/dist/wordlist.txt",
   );
-  const wordlist = await resp.text();
+  return await resp.text();
+}
 
-  return expand(unpack(wordlist));
+/** A function that loads the default wordlist via fetch. */
+export async function loadWordlist() {
+  return expand(unpack(await loadPackedString()));
 }

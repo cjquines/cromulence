@@ -9,7 +9,7 @@ type WordBins = Map<number, string[]>;
 /** wordlist should have slug keys and Zipf frequency values. */
 export function compress(wordlist: Record<string, number>): WordBins {
   const hZipfs = Array.from(
-    new Set(Object.values(wordlist).map((zipf) => Math.round(100 * zipf)))
+    new Set(Object.values(wordlist).map((zipf) => Math.round(100 * zipf))),
   ).sort((a, b) => b - a);
 
   const bins: WordBins = new Map();
@@ -143,4 +143,57 @@ export function unpack(packed: string): WordBins {
   }
 
   return bins;
+}
+
+/** Process a packed string with a given set of hooks. */
+export function unpackWith(
+  packed: string,
+  hook: {
+    pushLetter: (letter: string) => void;
+    popUntil: (length: number) => void;
+    pushWord: () => void;
+    resetWord: () => void;
+  },
+) {
+  let i = 0;
+
+  while (i < packed.length) {
+    while (packed[i] !== " ") {
+      i++;
+    }
+
+    // Skip the space.
+    i++;
+
+    // Get the first word.
+    hook.resetWord();
+    while (!DIGIT_OR_NEWLINE.test(packed[i])) {
+      hook.pushLetter(packed[i]);
+      i++;
+    }
+    hook.pushWord();
+
+    while (packed[i] !== "\n") {
+      // Get the common prefix length.
+      let jStr: string[] = [];
+      while (DIGIT.test(packed[i])) {
+        jStr.push(packed[i]);
+        i++;
+      }
+      const j = parseInt(jStr.join(""), 10);
+
+      // Get the common prefix.
+      hook.popUntil(j);
+
+      // Get the rest of the word.
+      while (!DIGIT_OR_NEWLINE.test(packed[i])) {
+        hook.pushLetter(packed[i]);
+        i++;
+      }
+      hook.pushWord();
+    }
+
+    // Skip the new line.
+    i++;
+  }
 }

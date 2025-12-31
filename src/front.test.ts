@@ -1,5 +1,12 @@
 import { expect, test } from "vitest";
-import { compress, expand, expandMap, pack, unpack } from "./front.js";
+import {
+  compress,
+  expand,
+  expandMap,
+  pack,
+  unpack,
+  unpackWith,
+} from "./front.js";
 
 test("compress, expand", () => {
   const obj = {
@@ -17,7 +24,7 @@ test("compress, expand", () => {
   expect(Object.fromEntries(expandMap(compress(obj)).entries())).toEqual(obj);
 });
 
-test("pack, unpack", () => {
+test("pack, unpack, unpackWith", () => {
   const obj = new Map([
     [100, ["c", "ca", "cast", "cat"]],
     [134, ["d", "do", "dog", "dub"]],
@@ -33,4 +40,40 @@ test("pack, unpack", () => {
     "
   `);
   expect(unpack(pack(obj))).toEqual(obj);
+});
+
+test("unpackWith", () => {
+  const obj = new Map([
+    [100, ["ca", "cast", "cat"]],
+    [200, ["echo"]],
+  ]);
+
+  const calls: string[] = [];
+  unpackWith(pack(obj), {
+    pushLetter: (letter) => calls.push(`pushLetter(${letter})`),
+    popUntil: (length) => calls.push(`popUntil(${length})`),
+    pushWord: () => calls.push("pushWord()"),
+    resetWord: () => calls.push("resetWord()"),
+  });
+  expect(calls).toMatchInlineSnapshot(`
+    [
+      "resetWord()",
+      "pushLetter(c)",
+      "pushLetter(a)",
+      "pushWord()",
+      "popUntil(2)",
+      "pushLetter(s)",
+      "pushLetter(t)",
+      "pushWord()",
+      "popUntil(2)",
+      "pushLetter(t)",
+      "pushWord()",
+      "resetWord()",
+      "pushLetter(e)",
+      "pushLetter(c)",
+      "pushLetter(h)",
+      "pushLetter(o)",
+      "pushWord()",
+    ]
+  `);
 });
