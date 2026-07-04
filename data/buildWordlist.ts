@@ -2,8 +2,25 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { compress, pack } from "../src/front.js";
 
+const WORDLIST_INPUT = path.join("data", "combined.freq.txt");
 const INPUT = path.join("data", "wordlist");
 const OUTPUT = path.join("dist", "wordlist.txt");
+
+const truncateWordlist = async () => {
+  try {
+    const file = await fs.readFile(WORDLIST_INPUT, "utf-8");
+    const truncated = file
+      .split("\n")
+      .filter((line) => {
+        const [text, countStr] = line.split(",");
+        return !text.match(/[^A-Za-z]/) && parseInt(countStr) >= 10 ** 6;
+      })
+      .join("\n");
+    await fs.writeFile(INPUT, truncated, "utf-8");
+  } catch (e) {
+    console.warn(`unable to read ${WORDLIST_INPUT}, using cached ${INPUT}`, e);
+  }
+};
 
 const slugify = (str: string) => str.toLowerCase().replace(/[^a-z]/g, "");
 
@@ -21,19 +38,22 @@ const readWordlist = async () => {
 };
 
 const main = async () => {
+  console.log("truncating");
+  await truncateWordlist();
+
   console.log("reading");
   const wordlist = await readWordlist();
 
   console.log("processing");
   const LOG_BILLION = 9;
   const logTotalCount = Math.log10(
-    wordlist.reduce((acc, cur) => acc + cur.count, 0)
+    wordlist.reduce((acc, cur) => acc + cur.count, 0),
   );
   const countToZipf = (count: number) =>
     LOG_BILLION + Math.log10(count) - logTotalCount;
 
   const data = Object.fromEntries(
-    wordlist.map(({ slug, count: freq }) => [slug, countToZipf(freq)])
+    wordlist.map(({ slug, count: freq }) => [slug, countToZipf(freq)]),
   );
 
   console.log("binning");
