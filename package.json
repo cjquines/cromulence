@@ -31,7 +31,7 @@
     "!src/**/*.test.ts"
   ],
   "scripts": {
-    "build": "npm run build:wordlist && npm run build:ts",
+    "build": "npm run build:ts && npm run build:wordlist",
     "build:ts": "tsc",
     "build:wordlist": "tsx data/buildWordlist.ts",
     "test": "vitest"

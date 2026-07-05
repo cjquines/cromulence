@@ -13,7 +13,7 @@ const truncateWordlist = async () => {
       .split("\n")
       .filter((line) => {
         const [text, countStr] = line.split(",");
-        return !text.match(/[^A-Za-z]/) && parseInt(countStr) >= 10 ** 6;
+        return !text.includes(" ") && parseInt(countStr) >= 10 ** 6;
       })
       .join("\n");
     await fs.writeFile(INPUT, truncated, "utf-8");
