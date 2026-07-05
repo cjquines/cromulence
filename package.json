@@ -1,6 +1,6 @@
 {
   "name": "cromulence",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "a small word frequency library",
   "keywords": [
     "wordlist"
