@@ -33,29 +33,22 @@ export function zipfToCromulence(zipf: number, length: number) {
 }
 
 export class Cromulence {
-  private cache: Map<string, number>;
-
   /**
    * Constructs an object for looking up cromulences.
    *
    * @param wordlist - An object with slug keys and Zipf frequency values.
    */
-  constructor(public wordlist: Record<string, number>) {
-    this.cache = new Map();
-  }
+  constructor(public wordlist: Record<string, number>) {}
 
   /**
-   * Returns the Zipf frequency of a slug; defaults to -1000. We use a cache
-   * here because many applications look up the same slug over and over.
+   * Returns the Zipf frequency of a slug; defaults to -1000.
+   *
+   * This is uncached: the wordlist lookup is already a hash lookup, and a
+   * cache of every substring looked up grows without bound when scoring many
+   * distinct texts (e.g. streaming anagrams).
    */
   private slugZipf(slug: string): number {
-    const value = this.cache.get(slug);
-    if (value !== undefined) {
-      return value;
-    }
-    const result = this.wordlist[slug] ?? -1000;
-    this.cache.set(slug, result);
-    return result;
+    return this.wordlist[slug] ?? -1000;
   }
 
   /**
